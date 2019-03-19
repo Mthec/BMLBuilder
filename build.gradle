@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group ''
+version '0.4'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    provided
+    provided.extendsFrom(implementation)
+}
+
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+    test {
+        compileClasspath += configurations.provided
+    }
+}
+
+dependencies {
+    testImplementation project(':WurmTestingHelper')
+    provided fileTree(dir: 'E:/Steam/steamapps/common/Wurm Unlimited/WurmServerLauncher/', includes: ["modlauncher.jar", "javassist.jar", "server.jar"])
+}
