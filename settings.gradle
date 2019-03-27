@@ -1,4 +1,3 @@
 rootProject.name = 'BMLBuilder'
 include(":WurmTestingHelper")
 project(":WurmTestingHelper").projectDir = file("../WurmTestingHelper")
-

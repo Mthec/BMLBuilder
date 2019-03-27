@@ -1,6 +1,6 @@
 package mod.wurmunlimited.bml;
 
-public class Text extends BML {
+public class Text extends BML implements Hover {
     private final BML parent;
     private final String text;
     private Alignment alignment = Alignment.None;
@@ -8,19 +8,22 @@ public class Text extends BML {
     private short r = 0;
     private short g = 0;
     private short b = 0;
+    private String hover = "";
+
+
 
     enum FontStyle {
         None,
         Italic,
         Bold,
-        BoldItalic
+        BoldItalic;
     }
+
 
     enum Alignment {
         None,
-        Center
+        Center;
     }
-
     Text(BML parent, String text) {
         this.parent = parent;
         this.text = text;
@@ -66,6 +69,12 @@ public class Text extends BML {
     }
 
     @Override
+    public Text hover(String text) {
+        hover = text;
+        return this;
+    }
+
+    @Override
     StringBuilder buildBML() {
         StringBuilder sb = parent.buildBML();
         if (alignment == Alignment.Center)
@@ -87,6 +96,9 @@ public class Text extends BML {
             sb.append(String.format("color=\"%d,%d,%d\";", r, g, b));
 
         sb.append("text=\"").append(text).append("\"");
+
+        if (!hover.isEmpty())
+            sb.append(";hover=\"").append(hover).append("\"");
 
         if (alignment == Alignment.Center)
             sb.append("}");
