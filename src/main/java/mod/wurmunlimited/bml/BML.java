@@ -34,19 +34,19 @@ public abstract class BML {
     }
 
     public BML checkbox(String id) {
-        return checkbox("", id, false);
+        return checkbox(id, "", false);
     }
 
     public BML checkbox(String id, boolean checked) {
-        return checkbox("", id, checked);
+        return checkbox(id, "", checked);
     }
 
-    public BML checkbox(String label, String id) {
-        return checkbox(label, id, false);
+    public BML checkbox(String id, String label) {
+        return checkbox(id, label, false);
     }
 
-    public BML checkbox(String label, String id, boolean checked) {
-        return new Checkbox(this, label, id, checked);
+    public BML checkbox(String id, String label, boolean checked) {
+        return new Checkbox(this, id, label, checked);
     }
 
     public BML radio(String group, String id, String text) {

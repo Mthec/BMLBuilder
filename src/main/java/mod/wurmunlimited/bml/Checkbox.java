@@ -6,7 +6,7 @@ class Checkbox extends BML {
     private final String id;
     private final boolean checked;
 
-    Checkbox(BML parent, String label, String id, boolean checked) {
+    Checkbox(BML parent, String id, String label, boolean checked) {
         this.parent = parent;
         this.label = label;
         this.id = id;

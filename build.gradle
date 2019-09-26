@@ -26,6 +26,7 @@ sourceSets {
 }
 
 dependencies {
-    testImplementation project(':WurmTestingHelper')
     provided fileTree(dir: 'E:/Steam/steamapps/common/Wurm Unlimited/WurmServerLauncher/', includes: ["modlauncher.jar", "javassist.jar", "server.jar"])
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
 }

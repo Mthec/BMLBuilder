@@ -8,8 +8,6 @@ import com.wurmonline.server.items.Item;
 import com.wurmonline.server.questions.FriendQuestion;
 import com.wurmonline.server.questions.MultiPriceManageQuestion;
 import com.wurmonline.server.questions.Question;
-import com.wurmonline.server.zones.Zones;
-import mod.wurmunlimited.WurmObjectsFactory;
 import org.gotti.wurmunlimited.modloader.ReflectionUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +35,6 @@ class BMLTests {
     @BeforeEach
     void setUp() throws NoSuchFieldException, IllegalAccessException {
         ReflectionUtil.setPrivateField(null, Question.class.getDeclaredField("ids"), 0);
-        Zones.resetStatic();
     }
 
     private String createBMLString() {
@@ -88,22 +85,6 @@ class BMLTests {
                        .build();
     }
 
-    @Test
-    void testFriendQuestionComparison() throws Exception {
-        WurmObjectsFactory factory = new WurmObjectsFactory();
-        Creature player1 = factory.createNewPlayer();
-        Creature player2 = factory.createNewPlayer();
-        new FriendQuestion(player1, "", "", player2.getWurmId()).sendQuestion();
-        String realBml = factory.getCommunicator(player1).lastBmlContent
-                                 .replaceAll("'", "\"")
-                                 .replaceAll(" group=\"join\"; ", "group=\"join\";")
-                                 .replaceAll("harray \\{", "harray{");
-        String myBml = createFriendQuestionBml(player2);
-        System.out.println(realBml);
-
-        assertEquals(realBml, myBml);
-    }
-
     // Changed to harray.
     @Test
     void testButtonSetAddsSpacersBetweenButtons() {
@@ -147,43 +128,6 @@ class BMLTests {
                         })
                 .harray(b -> b.button("Send"))
                 .build();
-    }
-
-    @Test
-    void testTable() throws Exception {
-        WurmObjectsFactory factory = new WurmObjectsFactory();
-        Creature player1 = factory.createNewPlayer();
-        Creature trader = factory.createNewMerchant(player1);
-        factory.createManyItems(3, factory.getIsWoodId()).forEach(trader.getInventory()::insertItem);
-        new MultiPriceManageQuestion(player1, "", "", trader.getWurmId()).sendQuestion();
-        String realBml = factory.getCommunicator(player1).lastBmlContent
-                                 .replaceAll("'", "\"")
-                                 .replaceAll(" cols", "cols")
-                                 .replaceAll(" id", "id")
-                                 .replaceAll("harray \\{", "harray{")
-                                 .replaceAll("\\{maxchars=\"(\\d)\";id=\"(\\d\\w)\";text=\"(\\d)\"}", "{text=\"$3\";id=\"$2\";maxchars=\"$1\"}");
-        String myBml = createMultiQuestionBml(trader);
-
-        assertEquals(realBml, myBml);
-    }
-
-    @Test
-    void testEmptyTable() throws Exception {
-        WurmObjectsFactory factory = new WurmObjectsFactory();
-        Creature player1 = factory.createNewPlayer();
-        Creature trader = factory.createNewMerchant(player1);
-        assert trader.getInventory().getItemCount() == 0;
-        new MultiPriceManageQuestion(player1, "", "", trader.getWurmId()).sendQuestion();
-        String realBml = factory.getCommunicator(player1).lastBmlContent
-                                 .replaceAll("'", "\"")
-                                 .replaceAll(" cols", "cols")
-                                 .replaceAll(" id", "id")
-                                 .replaceAll("harray \\{", "harray{")
-                                 .replaceAll("\\{maxchars=\"(\\d)\";id=\"(\\d\\w)\";text=\"(\\d)\"}", "{text=\"$3\";id=\"$2\";maxchars=\"$1\"}");
-        String myBml = createMultiQuestionBml(trader);
-        System.out.println(realBml);
-
-        assertEquals(realBml, myBml);
     }
 
     @Test
