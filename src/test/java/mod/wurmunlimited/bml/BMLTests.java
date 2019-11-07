@@ -41,7 +41,7 @@ class BMLTests {
         return new BMLBuilder(0)
                        .text("")
                        .checkbox("checkbox")
-                       .checkbox("labelled", "checkbox2")
+                       .checkbox("checkbox2", "labelled")
                        .entry("a_number", "23", 2)
                        .harray(b -> b.button("Send"))
                        .build();
