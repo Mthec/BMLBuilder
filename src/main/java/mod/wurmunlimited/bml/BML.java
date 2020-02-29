@@ -112,7 +112,7 @@ public abstract class BML {
         return new TagCloser(contents.apply(h));
     }
 
-    public <T> BML table(String[] columnTitles, Collection<T> rowData, BMLFor<T> rowBuilder) {
+    public <T> BML table(String[] columnTitles, Iterable<T> rowData, BMLFor<T> rowBuilder) {
         Table table = new Table(this, columnTitles);
         BML bml = table;
         for (T t : rowData) {
